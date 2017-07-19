@@ -1,4 +1,4 @@
-[
+export default [
 	{
 		name: 'Preston McNeil',
 		pic_square: 'https://randomuser.me/api/portraits/women/34.jpg',

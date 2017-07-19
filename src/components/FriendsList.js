@@ -1,15 +1,18 @@
 import React, {Component} from 'react'
+import friends from '../friends'
+import Friend from './Friend'
 
+console.log(friends)
 class FriendsList extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       searchText : '',
       orderBy : 'name',
       order : 'ascending'
     }
-    
+
   }
 
 //methods
@@ -18,6 +21,20 @@ class FriendsList extends Component {
   }
 
   render() {
+    const friendsList = friends
+  	  .filter( friend => friend.name.toLowerCase().indexOf( this.state.searchText.toLowerCase() ) !== -1 )
+  	  .sort( ( a, b ) => a[ this.state.orderBy ] > b[ this.state.orderBy ] ? 1 : -1 )
+  	  .map( friend => (
+  		  <Friend
+  			  currentLocation={ friend.current_location || {} }
+  			  friendCount={ friend.friend_count }
+  			  key={ friend.$$hashKey }
+  			  name={ friend.name }
+  			  pictureUrl={ friend.pic_square }
+  			  status={ friend.status ? friend.status.message : "" }
+  		  />
+  	) )
+    const displayFriends = this.state.order === 'ascending' ? friendsList : friendsList.slice().reverse();
     return (
       <div>
 	      <form className="form-inline searchForm" role="form">
@@ -46,6 +63,7 @@ class FriendsList extends Component {
 	      </form>
 
 	      <ul>
+          {friendsList}
 	      </ul>
       </div>
 
